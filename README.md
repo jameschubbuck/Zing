@@ -111,7 +111,7 @@ zstyle ':zing:theme' base0D '#89b4fa'
 |---|---|---|
 | `base03` | 8, bright black | suggestions, comments |
 | `base04` | 7, white | path separators |
-| `base08` | 1, red | bracket errors |
+| `base08` | 1, red | unknown commands, bracket errors |
 | `base09` | 3, yellow | interpolations in strings, assignments |
 | `base0B` | 2, green | aliases |
 | `base0C` | 6, cyan | options, globs, third bracket level |

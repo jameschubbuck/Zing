@@ -7,8 +7,8 @@ source $REPLY
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 # Only where the plugin's defaults differ
-# Its defaults are ANSI, so under a base16 terminal theme commands, strings and
-# unknown tokens already match, and unset styles fall back,
+# Its defaults are ANSI, so under a base16 terminal theme commands and strings
+# already match, and unset styles fall back,
 # e.g. command to arg0 and path_prefix to path
 () {
   local -A c
@@ -44,6 +44,7 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
     # Default is black, often the background
     comment $c[base03],italic
     # Errors, unbolded
+    unknown-token $c[base08]
     bracket-error $c[base08]
     # Brackets by depth, unbolded
     bracket-level-1 $c[base0D]
