@@ -24,6 +24,6 @@ unset _zing_source
 
 # `./history-suggestions.zsh` calls into the plugin, so check it is there
 if (( ${ZSH_AUTOSUGGEST_STRATEGY[(I)zing_prefix_history]} && ! $+functions[_zsh_autosuggest_strategy_history] )); then
-  print -u2 "zing: history suggestions need zsh-autosuggestions 0.7, as in $ZING_ROOT/plugins"
+  print -u2 "zing: history suggestions need zsh-autosuggestions 0.7"
   ZSH_AUTOSUGGEST_STRATEGY=(${ZSH_AUTOSUGGEST_STRATEGY:#zing_prefix_history})
 fi

@@ -1,9 +1,8 @@
 # Zing
 
 A zsh configuration: suggestions from paths and history, a prompt that starts
-on the bottom row and shrinks once submitted, vi mode, and fast startup. Plain
-zsh, so it works anywhere zsh does, with a home-manager module for Nix that
-takes its colours from stylix.
+on the bottom row and shrinks once submitted, vi mode, and fast startup. For
+Nix: a home-manager module that takes its colours from stylix.
 
 ![Zing's features, one caption each](demo/demo.gif)
 
@@ -19,32 +18,10 @@ nix run .
 
 ## Install
 
-```sh
-git clone --recurse-submodules <this repo> ~/.local/share/zing
-echo 'source ~/.local/share/zing/zing.zsh' >> ~/.zshrc
-```
-
-Source it at the **end** of `.zshrc`: the plugins wrap every widget defined
-before them, and the prompt is drawn last. Put `zstyle`s (below) before it,
-and anything of Zing's you want to override after it.
-
-The two plugins, [zsh-autosuggestions] 0.7.1 and [zsh-syntax-highlighting]
-0.8.0, are pinned submodules under `plugins/`. Zing calls into
-zsh-autosuggestions' internals, so other versions may not work. If the
-submodules are missing, Zing looks where Arch, Debian and Homebrew put them.
-
-Zing runs its own `compinit` and sets up vi mode, so it replaces a framework
-like oh-my-zsh or prezto rather than going alongside one.
-
-[zsh-autosuggestions]: https://github.com/zsh-users/zsh-autosuggestions
-[zsh-syntax-highlighting]: https://github.com/zsh-users/zsh-syntax-highlighting
-
-### home-manager
-
 ```nix
 # flake.nix
 inputs.zing = {
-  url = "path:/path/to/zing"; # or its git URL
+  url = "git+file:///path/to/zing"; # or its git URL
   inputs.nixpkgs.follows = "nixpkgs";
 };
 
@@ -57,7 +34,9 @@ inputs.zing = {
 
 The module:
 
-- Takes the plugins from nixpkgs.
+- Takes the plugins, [zsh-autosuggestions] and [zsh-syntax-highlighting], from
+  nixpkgs. Zing calls into zsh-autosuggestions' internals, so a version other
+  than 0.7 may not work.
 - Byte-compiles everything at build time.
 - Bakes `$LS_COLORS` in.
 - Uses `programs.zsh.history` for history, with Zing's settings as defaults.
@@ -68,6 +47,12 @@ The module:
 | `programs.zing.colors` | base16 colours, e.g. `{base0D = "89b4fa";}`, stylix's by default |
 | `programs.zing.disable` | features to leave out, e.g. `["bottom-prompt"]` |
 | `programs.zing.compileZshrc` | byte-compile `.zshrc` on activation, default on |
+
+Zing runs its own `compinit` and sets up vi mode, so it replaces a framework
+like oh-my-zsh or prezto rather than going alongside one.
+
+[zsh-autosuggestions]: https://github.com/zsh-users/zsh-autosuggestions
+[zsh-syntax-highlighting]: https://github.com/zsh-users/zsh-syntax-highlighting
 
 Each phase lands at a fixed place in `.zshrc`, exported as
 `inputs.zing.lib.order`. Widgets the plugins should wrap belong before
@@ -111,7 +96,6 @@ zstyle ':zing:bottom-prompt' enabled no
 | `shell-integration` | OSC 7 (directory), OSC 2 (title), OSC 133 (prompt marks and exit status), for jumping between prompts and command notifications. Turn off your terminal's own, or the marks double up |
 | `nix-shells` | `nix develop`, `nix shell` and `nix-shell` drop into zsh, not bash |
 | `options` | `EXTENDED_GLOB`, `INTERACTIVE_COMMENTS`, `NO_BEEP` |
-| `compile` | Byte-compiles Zing and its plugins in the background when changed. Off under Nix, which compiles at build time |
 
 ## Theme
 
@@ -145,13 +129,13 @@ zstyle ':zing:theme' base0D '#89b4fa'
 | `':zing:history' file <path>` | history file, else `$HISTFILE` if set, else `$XDG_DATA_HOME/zsh/history` |
 | `':zing:compinit' cache-dir <dir>` | where the completion dump goes, else `$XDG_CACHE_HOME/zsh` |
 | `':zing:ls-colors' file <path>` | a prebuilt `dircolors -b` to source |
-| `':zing:plugins' <plugin> <file>` | a plugin's entry file, e.g. `zsh-autosuggestions` |
+| `':zing:plugins' <plugin> <file>` | a plugin's entry file, e.g. `zsh-autosuggestions`; set by the module |
 | `':zing:nix-shells' shell <path>` | the shell nix drops into, else this one |
 
 ## Phases
 
-`zing.zsh` sources five phases, which can also be sourced one by one for
-finer placement in a `.zshrc`:
+The module sources five phases, each at its place in `.zshrc`. `zing.zsh`
+sources all five in a row, for `nix run`:
 
 | Phase | |
 |---|---|
@@ -164,8 +148,7 @@ finer placement in a `.zshrc`:
 ## Development
 
 ```sh
-zsh tests/run.zsh   # drives a real zsh through a pty
-nix flake check     # the same, against the Nix package
+nix flake check     # drives a real zsh through a pty
 demo/record.sh      # re-records demo/demo.gif and demo/demo.mp4
 ```
 

@@ -59,8 +59,6 @@
   zstyle = context: style: value: "zstyle ${lib.escapeShellArgs [":zing${context}" style value]}";
   zstyles = lib.concatLines (
     [
-      # Compiled at build time, see `./package.nix`
-      (zstyle ":compile" "enabled" "no")
       (zstyle ":plugins" "zsh-autosuggestions"
         "${zcompile pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh")
       (zstyle ":plugins" "zsh-syntax-highlighting"

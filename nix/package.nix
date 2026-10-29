@@ -1,5 +1,5 @@
 # Zing's own files, byte-compiled, under share/zing
-# Without the plugin submodules, as Nix has its own, see `./hm-module.nix`
+# The plugins are nixpkgs', see `./hm-module.nix`
 {
   lib,
   stdenvNoCC,
@@ -16,7 +16,7 @@ in
       fileset = lib.fileset.unions [
         (lib.fileset.difference
           (lib.fileset.fileFilter (file: file.hasExt "zsh") root)
-          (lib.fileset.unions [(lib.fileset.maybeMissing ../plugins) ../tests]))
+          ../tests)
         ../LICENSE.md
       ];
     };

@@ -1,12 +1,12 @@
 #!/usr/bin/env zsh
 # Drive an interactive zsh with Zing through a pty, checking what each
 # keystroke leaves in the line editor
-# `zsh tests/run.zsh`, or `nix flake check`, which sets $ZING_TEST_RC
+# Run by `nix flake check`, which sets $ZING_TEST_RC to source Zing and its
+# plugins
 emulate -L zsh
 setopt err_return no_unset
 zmodload zsh/zpty
 
-local root=${${(%):-%x}:A:h:h}
 local tmp=$(mktemp -d)
 trap "zpty -d zing 2>/dev/null; rm -rf ${(q)tmp}" EXIT
 
@@ -20,8 +20,7 @@ print -l ': 1:0;git status' ': 2:0;git status --short' ': 3:0;git commit -m wip'
 cat > $tmp/home/.zshrc <<RC
 zstyle ':zing:history' file $tmp/home/history
 zstyle ':zing:bottom-prompt' enabled no
-zstyle ':zing:compile' enabled no
-${ZING_TEST_RC:-source $root/zing.zsh}
+$ZING_TEST_RC
 alias gs='git status'
 _zing_test_dump() { print -r -- "\$BUFFER|\$POSTDISPLAY" >> $tmp/out }
 zle -N _zing_test_dump

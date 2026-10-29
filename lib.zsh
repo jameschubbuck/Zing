@@ -41,20 +41,9 @@ _zing_refetch() {
 }
 
 # Entry file of a plugin, in $REPLY
-# `zstyle ':zing:plugins' <name> <file>`, else the bundled submodule, else
-# where common package managers put it
+# `zstyle ':zing:plugins' <name> <file>`, which Nix sets, see `nix/hm-module.nix`
 _zing_plugin() {
   zstyle -s ':zing:plugins' $1 REPLY && return
-  local candidate
-  for candidate in \
-    $ZING_ROOT/plugins/$1 \
-    /usr/share/zsh/plugins/$1 \
-    /usr/share/$1 \
-    /usr/local/share/$1 \
-    /opt/homebrew/share/$1; do
-    REPLY=$candidate/$1.zsh
-    [[ -r $REPLY ]] && return
-  done
-  print -u2 "zing: $1 not found, run \`git submodule update --init\` in $ZING_ROOT"
+  print -u2 "zing: no \`zstyle ':zing:plugins' $1\`"
   return 1
 }

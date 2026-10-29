@@ -8,5 +8,3 @@ source ${${(%):-%x}:A:h}/early.zsh
 source $ZING_ROOT/main.zsh
 source $ZING_ROOT/late.zsh
 source $ZING_ROOT/prompt.zsh
-
-source $ZING_ROOT/features/compile.zsh
