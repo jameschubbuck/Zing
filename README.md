@@ -79,7 +79,7 @@ zstyle ':zing:bottom-prompt' enabled no
 | `history-suggestions` | Suggests history, shorter forms first: with `foo` and `foo --bar`, `fo` suggests `foo`, then `foo --bar` |
 | `accept-suggestion` | Tab accepts the suggestion, or completes without one. Backspace right after takes the whole suggestion back |
 | `syntax-highlighting` | Colours the line as it is typed, in the theme's colours |
-| `prompt` | The directory above a `»`, red after a failure and `«` in vi command mode, with a blank line between commands |
+| `prompt` | The directory above a bold `»`, red after a failure and a cyan `«` in vi command mode, with a blank line between commands |
 | `transient-prompt` | Submitted prompts shrink to their last line, so scrollback reads as commands. Works with any multi-line `$PROMPT` |
 | `bottom-prompt` | A new terminal's first prompt starts on the bottom row |
 | `clear` | `clear`, `reset` and Ctrl+L clear the scrollback too, keeping the prompt at the bottom |
@@ -113,7 +113,7 @@ zstyle ':zing:theme' base0D '#89b4fa'
 | `base08` | 1, red | unknown commands, bracket errors, the `»` after a failure |
 | `base09` | 3, yellow | interpolations in strings, assignments |
 | `base0B` | 2, green | aliases |
-| `base0C` | 6, cyan | options, globs, third bracket level |
+| `base0C` | 6, cyan | options, globs, third bracket level, the `«` in command mode |
 | `base0D` | 4, blue | the directory, paths, first bracket level |
 | `base0E` | 5, magenta | the `»`, keywords, second bracket level |
 
