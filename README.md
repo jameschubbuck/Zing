@@ -74,7 +74,7 @@ zstyle ':zing:bottom-prompt' enabled no
 
 | Feature | |
 |---|---|
-| `autosuggestions` | Grey suggestion of the rest of the line, refetched every word |
+| `autosuggestions` | Grey suggestion of the rest of the line, refetched every word. Only in insert mode with the cursor at the end |
 | `path-suggestions` | Suggests paths, stopping where candidates diverge: with `flake.lock` and `flake.nix`, `cat f` suggests `cat flake.` |
 | `history-suggestions` | Suggests history, shorter forms first: with `foo` and `foo --bar`, `fo` suggests `foo`, then `foo --bar` |
 | `accept-suggestion` | Tab accepts the suggestion, or completes without one. Backspace right after takes the whole suggestion back |

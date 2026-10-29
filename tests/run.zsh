@@ -25,6 +25,10 @@ alias gs='git status'
 _zing_test_dump() { print -r -- "\$BUFFER|\$POSTDISPLAY" >> $tmp/out }
 zle -N _zing_test_dump
 bindkey '^X' _zing_test_dump
+# In command mode too, then back to insert mode for the next case
+_zing_test_dump_vicmd() { zle _zing_test_dump; zle vi-insert }
+zle -N _zing_test_dump_vicmd
+bindkey -M vicmd '^X' _zing_test_dump_vicmd
 _zing_test_preexec() { print -r -- "ran:\$1" >> $tmp/out }
 preexec_functions+=(_zing_test_preexec)
 PROMPT='> '
@@ -61,8 +65,8 @@ check() {
     print -r -- "FAIL  ${(qqqq)keys} -> $got, want $want"
     failed+=1
   fi
-  # Clear the line for the next case, then let it settle
-  zpty -w -n zing $'\C-u'
+  # Clear the whole line for the next case, from its end, then let it settle
+  zpty -w -n zing $'\C-e\C-u'
   sleep 0.1
 }
 
@@ -79,6 +83,10 @@ check '# see s' '# see s|'                            # Not in comments
 check 'git st' 'git st|atus'                          # Shorter forms first, though newer
 check 'cd ...' 'cd ../..|'                            # Dots expand
 check $'cat F\t' 'cat flake.|'                        # Completion ignores case
+check $'cat f\C-a' 'cat f|'                            # Hidden away from the end
+check $'cat f\C-a\C-e' 'cat f|lake.'                   # And back at it
+check $'cat f\e' 'cat f|'                              # Hidden in command mode
+check $'cat f\eA' 'cat f|lake.'                       # And back in insert mode
 
 # Enter expands the alias, so history records what ran
 : >| $tmp/out
