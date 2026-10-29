@@ -17,6 +17,5 @@ source $ZING_ROOT/features/cursor.zsh
 source $ZING_ROOT/features/dot-expand.zsh
 source $ZING_ROOT/features/history-suggestions.zsh
 source $ZING_ROOT/features/path-suggestions.zsh
-source $ZING_ROOT/features/shell-integration.zsh
 source $ZING_ROOT/features/transient-prompt.zsh
 source $ZING_ROOT/features/nix-shells.zsh

@@ -30,7 +30,6 @@
     "options"
     "path-suggestions"
     "prompt"
-    "shell-integration"
     "syntax-highlighting"
     "transient-prompt"
     "vi-mode"

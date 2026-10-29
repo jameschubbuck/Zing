@@ -93,7 +93,6 @@ zstyle ':zing:bottom-prompt' enabled no
 | `compinit` | Completions from a dump, rebuilt in the background only when `$fpath` changes |
 | `history` | Big history file, small in-memory history, no duplicates, saved as each command finishes, not shared between terminals |
 | `ls-colors` | `$LS_COLORS` from `dircolors`, cached, unless already set |
-| `shell-integration` | OSC 7 (directory), OSC 2 (title), OSC 133 (prompt marks and exit status), for jumping between prompts and command notifications. Turn off your terminal's own, or the marks double up |
 | `nix-shells` | `nix develop`, `nix shell` and `nix-shell` drop into zsh, not bash |
 | `options` | `EXTENDED_GLOB`, `INTERACTIVE_COMMENTS`, `NO_BEEP` |
 
