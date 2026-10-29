@@ -31,8 +31,7 @@ in
 
     meta = {
       description = "A zsh configuration: suggestions, a bottom prompt, vi mode";
-      # Not `lib.licenses.hl3`, which nixpkgs counts as unfree, refusing to
-      # evaluate without allowUnfree; ../LICENSE.md is the licence
+      license = lib.licenses.mit;
       platforms = lib.platforms.unix;
     };
   }
