@@ -4,10 +4,6 @@ A zsh configuration: suggestions from paths and history, a prompt that starts
 on the bottom row and shrinks once submitted, vi mode, and fast startup. For
 Nix: a home-manager module that takes its colours from stylix.
 
-![Zing's features, one caption each](demo/demo.gif)
-
-([mp4](demo/demo.mp4), recorded by [`demo/record.sh`](demo/record.sh))
-
 ## Try it
 
 With Nix, from a clone, without touching your own config or history:
@@ -148,7 +144,6 @@ sources all five in a row, for `nix run`:
 
 ```sh
 nix flake check     # drives a real zsh through a pty
-demo/record.sh      # re-records demo/demo.gif and demo/demo.mp4
 ```
 
 Tested on zsh 5.9, on Linux. The Darwin outputs evaluate but are untested.
