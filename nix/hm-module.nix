@@ -43,9 +43,13 @@
     then lib.filterAttrs (name: _: isSlot name) config.lib.stylix.colors
     else {};
 
-  # Bake at build time instead of running dircolors every shell
+  # Bake at build time instead of running dircolors every shell. Directories
+  # others can write, or sticky ones, as any other directory, as
+  # features/ls-colors.zsh has them
   lsColors = pkgs.runCommandLocal "ls-colors.zsh" {} ''
-    ${pkgs.coreutils}/bin/dircolors -b > $out
+    ${pkgs.coreutils}/bin/dircolors -p \
+      | sed -E 's/^(STICKY_OTHER_WRITABLE|OTHER_WRITABLE|STICKY) .*/\1 01;34/' \
+      | ${pkgs.coreutils}/bin/dircolors -b - > $out
   '';
 
   # Absolute, or relative to home in older home-manager configurations

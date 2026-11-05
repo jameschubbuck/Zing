@@ -88,7 +88,7 @@ zstyle ':zing:bottom-prompt' enabled no
 | `completion` | A menu with case-insensitive, mid-word matching |
 | `compinit` | Completions from a dump, rebuilt in the background only when `$fpath` changes |
 | `history` | Big history file, small in-memory history, no duplicates, saved as each command finishes, not shared between terminals |
-| `ls-colors` | `$LS_COLORS` from `dircolors`, cached, unless already set |
+| `ls-colors` | `$LS_COLORS` from `dircolors`, cached, unless already set. Directories others can write, or sticky ones, look like any other |
 | `nix-shells` | `nix develop`, `nix shell` and `nix-shell` drop into zsh, not bash |
 | `options` | `EXTENDED_GLOB`, `INTERACTIVE_COMMENTS`, `NO_BEEP` |
 
