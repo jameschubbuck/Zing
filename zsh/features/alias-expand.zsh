@@ -1,6 +1,5 @@
 # Expand an alias on enter, so the expansion is shown and saved
 # Command word only, where zsh expands aliases anyway
-zing-enabled alias-expand || return
 
 _zing_expand_alias_and_accept() {
   local -a words=(${(z)BUFFER})

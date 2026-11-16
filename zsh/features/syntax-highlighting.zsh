@@ -1,5 +1,4 @@
 # Colour the command line as it is typed
-zing-enabled syntax-highlighting || return
 _zing_plugin zsh-syntax-highlighting || return
 
 source $REPLY

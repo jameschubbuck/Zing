@@ -2,7 +2,6 @@
 # Suggest history, shorter forms of a command first
 # With `foo` and `foo --bar`, `fo` suggests `foo`, then `foo --bar`
 # Builds on the plugin's own history strategy, an internal of 0.7.1
-zing-enabled history-suggestions || return
 
 _zsh_autosuggest_strategy_zing_prefix_history() {
   _zsh_autosuggest_strategy_history "$1"

@@ -7,6 +7,8 @@ zmodload -F zsh/files b:zf_mkdir b:zf_mv b:zf_rm
 autoload -Uz add-zsh-hook add-zle-hook-widget
 
 # Whether a feature is on, unless `zstyle ':zing:<feature>' enabled no`
+# Each phase sources its features in a loop at top level, not in a function,
+# where the plugins' typesets would go local
 zing-enabled() { zstyle -T ":zing:$1" enabled }
 
 # ANSI fallbacks for each base16 slot used, so the terminal's palette shows

@@ -2,7 +2,6 @@
 # Kept if already set, as by a parent shell or the system
 # Directories others can write, or sticky ones, as any other directory, not
 # dircolors' blue on green and white on blue, which are hard to read
-zing-enabled ls-colors || return
 [[ -n $LS_COLORS ]] && return
 
 # `zstyle ':zing:ls-colors' file` for a prebuilt one, as from Nix

@@ -1,7 +1,6 @@
 # Tab accepts the suggestion, or completes without one
 # Backspace undoes accepted suggestions whole, newest first
 # Named _* so zsh-autosuggestions ignores them, hence the manual fetches
-zing-enabled accept-suggestion || return
 
 # `start:end` of each accepted suggestion
 typeset -ga _zing_accept_stack

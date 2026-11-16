@@ -1,6 +1,5 @@
 # Expand ... to ../..
 # Named _* so zsh-autosuggestions ignores it, hence the manual fetch
-zing-enabled dot-expand || return
 
 _zing_dot_expand() {
   if [[ $LBUFFER = *.. ]]; then

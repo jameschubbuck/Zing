@@ -1,5 +1,3 @@
-zing-enabled completion || return
-
 () {
   _zing_completion_cache
   local cache=$REPLY

@@ -1,7 +1,6 @@
 # `zing_path` strategy for `./autosuggestions.zsh`
 # Suggest paths, stopping where the candidates diverge
 # With flake.lock and flake.nix, `cat f` suggests `cat flake.`
-zing-enabled path-suggestions || return
 
 # Longest common prefix of the arguments, in $REPLY
 _zing_common_prefix() {

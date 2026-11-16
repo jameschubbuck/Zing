@@ -1,5 +1,3 @@
-zing-enabled keybinds || return
-
 # Stop words at path separators, for ^W and word motions
 WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 

@@ -1,5 +1,4 @@
 # Clear the screen and scrollback, keeping the prompt on the bottom row
-zing-enabled clear || return
 
 _zing_clear() {
   [[ -t 1 ]] || return

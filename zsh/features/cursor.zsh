@@ -1,6 +1,5 @@
 # Block in command mode, beam in insert mode
 # Each change also unhides the cursor, hidden by `../env.zsh`
-zing-enabled cursor || return
 
 _zing_cursor_shape() {
   case $KEYMAP in

@@ -1,6 +1,5 @@
 # Grey suggestion of the rest of the line, in insert mode at the end
 # See `./path-suggestions.zsh` and `./history-suggestions.zsh`
-zing-enabled autosuggestions || return
 _zing_plugin zsh-autosuggestions || return
 typeset -g _zing_source=$REPLY
 

@@ -1,5 +1,4 @@
 # Drop nix shells into zsh rather than bash, unless given a command
-zing-enabled nix-shells || return
 (( $+commands[nix] || $+commands[nix-shell] )) || return
 
 # This shell's own binary, `zstyle ':zing:nix-shells' shell` to change it

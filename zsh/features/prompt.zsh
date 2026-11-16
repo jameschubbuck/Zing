@@ -1,7 +1,6 @@
 # Directory above a bold `»`, with a blank line between commands
 # Or a cyan `«` in vi command mode
 # Disable to bring your own; the other features read $PROMPT's line count
-zing-enabled prompt || return
 
 () {
   zing-color base0D

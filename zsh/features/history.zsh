@@ -1,5 +1,3 @@
-zing-enabled history || return
-
 # `zstyle ':zing:history' file`, else $HISTFILE if already set, else XDG
 () {
   local file

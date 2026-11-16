@@ -1,7 +1,6 @@
 # Load completions from a dump, rebuilt only when $fpath changes
 # A full compinit takes ~1.5s on NixOS, so a changed $fpath loads the old dump
 # once while a forked job writes the new one
-zing-enabled compinit || return
 
 zmodload -F zsh/stat b:zstat
 autoload -Uz compinit

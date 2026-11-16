@@ -1,7 +1,6 @@
 # Shrink submitted prompts to their last line, so scrollback reads as commands
 # Keeps a leading blank line, and works with any multi-line $PROMPT
 # Also clears the suggestion (POSTDISPLAY) from scrollback
-zing-enabled transient-prompt || return
 
 _zing_transient_prompt() {
   POSTDISPLAY=
