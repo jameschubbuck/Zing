@@ -1,144 +1,75 @@
 # Zing
-
-A zsh configuration: suggestions from paths and history, a prompt that starts
-on the bottom row and shrinks once submitted, vi mode, and fast startup. For
-Nix: a home-manager module.
+*is a performant opinionated zsh configuration for nix.*
 
 ## Try it
 
-With Nix, without touching your own config or history:
+On any nix machine, you can run:
 
 ```sh
 nix run github:jameschubbuck/Zing
 ```
 
+Though you do need flakes to be enabled.
+
 ## Install
+
+To install permanently add the following to your configuration just like any other input:
 
 ```nix
 # flake.nix
-inputs.zing = {
-  url = "github:jameschubbuck/Zing"; # or git+https://codeberg.org/chubbuck/Zing
-  inputs.nixpkgs.follows = "nixpkgs";
-};
 
-# a home-manager module
+inputs.zing.url = "github:jameschubbuck/Zing";
+
+# any home-manager module
+
 {inputs, ...}: {
   imports = [inputs.zing.homeModules.default];
   programs.zing.enable = true;
 }
 ```
 
-The module:
-
-- Takes the plugins, [zsh-autosuggestions] and [zsh-syntax-highlighting], from
-  nixpkgs. Zing calls into zsh-autosuggestions' internals, so a version other
-  than 0.7 may not work.
-- Byte-compiles everything at build time.
-- Bakes `$LS_COLORS` in.
-- Uses `programs.zsh.history` for history, with Zing's settings as defaults.
-
-| Option | |
-|---|---|
-| `programs.zing.colors` | base16 colours over the terminal's, e.g. `{base0D = "89b4fa";}` |
-| `programs.zing.disable` | features to leave out, e.g. `["bottom-prompt"]` |
-| `programs.zing.compileZshrc` | byte-compile `.zshrc` on activation, default on |
-
-Zing runs its own `compinit` and sets up vi mode, so it replaces a framework
-like oh-my-zsh or prezto rather than going alongside one.
-
-[zsh-autosuggestions]: https://github.com/zsh-users/zsh-autosuggestions
-[zsh-syntax-highlighting]: https://github.com/zsh-users/zsh-syntax-highlighting
-
-Each phase lands at a fixed place in `.zshrc`, exported as
-`inputs.zing.lib.order`. Widgets the plugins should wrap belong before
-`order.late`:
-
-```nix
-programs.zsh.initContent = lib.mkOrder (inputs.zing.lib.order.late - 1) ''
-  source ${zoxideInit}
-'';
-```
-
 ## Features
 
-Each is a file in [`zsh/features/`](zsh/features), and each can be turned off:
+### Performance
 
-```zsh
-zstyle ':zing:bottom-prompt' enabled no
-```
+Zing is about 4x faster than oh-my-zsh, though still 3x slower than stock zsh. In practice, the difference to stock zsh is sub 10ms, which is generally trivial.
 
-| Feature | |
-|---|---|
-| `autosuggestions` | Grey suggestion of the rest of the line, refetched every word. Only in insert mode with the cursor at the end |
-| `path-suggestions` | Suggests paths, stopping where candidates diverge: with `flake.lock` and `flake.nix`, `cat f` suggests `cat flake.` |
-| `history-suggestions` | Suggests history, shorter forms first: with `foo` and `foo --bar`, `fo` suggests `foo`, then `foo --bar` |
-| `accept-suggestion` | Tab accepts the suggestion, or completes without one. Backspace right after takes the whole suggestion back |
-| `syntax-highlighting` | Colours the line as it is typed, in the theme's colours |
-| `prompt` | The directory above a bold `»`, or a cyan `«` in vi command mode, with a blank line between commands |
-| `transient-prompt` | Submitted prompts shrink to their last line, so scrollback reads as commands. Works with any multi-line `$PROMPT` |
-| `bottom-prompt` | A new terminal's first prompt starts on the bottom row |
-| `clear` | `clear`, `reset` and Ctrl+L clear the scrollback too, keeping the prompt at the bottom |
-| `alias-expand` | Enter expands an alias, so the expansion is shown and saved |
-| `dot-expand` | `...` becomes `../..` as you type |
-| `auto-cd` | A directory alone is `cd`, pushing onto the directory stack |
-| `vi-mode` | Vi keys, with no delay on Escape |
-| `cursor` | A block cursor in command mode, a beam in insert mode, and hidden until the prompt is up |
-| `keybinds` | Home, End, Delete, Ctrl+arrows, and Emacs keys (Ctrl+A, E, K, U, W, P, N) in insert mode. Ctrl+S and Ctrl+Q freed from flow control |
-| `completion` | A menu with case-insensitive, mid-word matching |
-| `compinit` | Completions from a dump, rebuilt in the background only when `$fpath` changes |
-| `history` | Big history file, small in-memory history, no duplicates, saved as each command finishes, not shared between terminals |
-| `ls-colors` | `$LS_COLORS` from `dircolors`, cached, unless already set. Directories others can write, or sticky ones, look like any other |
-| `nix-shells` | `nix develop`, `nix shell` and `nix-shell` drop into zsh, not bash |
-| `options` | `EXTENDED_GLOB`, `INTERACTIVE_COMMENTS`, `NO_BEEP` |
+Speed is derived from many optimizations. To name a few:
 
-## Theme
+- Byte-compile plugins and `.zshrc` at build time.
+- Completions from cache.
+- No framework or plugin manager, aside from the magic of Nix.
 
-Colours are [base16] slots. Each defaults to an ANSI colour, so Zing follows
-your terminal's palette until told otherwise. Values can be hex, with or
-without `#`, or ANSI numbers.
+*(Tested `hyperfine 'zsh -i -c exit'` on 7840HS & zsh 5.9).*
 
-```zsh
-zstyle ':zing:theme' base0D '#89b4fa'
-```
+### Suggestions
 
-| Slot | Default | Used for |
-|---|---|---|
-| `base03` | 8, bright black | suggestions, comments |
-| `base04` | 7, white | path separators |
-| `base08` | 1, red | unknown commands, bracket errors |
-| `base09` | 3, yellow | interpolations in strings, assignments |
-| `base0B` | 2, green | aliases |
-| `base0C` | 6, cyan | options, globs, third bracket level, the `«` in command mode |
-| `base0D` | 4, blue | the directory, paths, first bracket level |
-| `base0E` | 5, magenta | the `»`, keywords, second bracket level |
+Grey inline suggestions are provided while you type, just like in most word processing programs. Tab completes suggestions when a suggestion is active, or behaves normally when one isn't. Backspace can undo whole suggestions at a time.
 
-[base16]: https://github.com/tinted-theming/home
+### Syntax highlighting
 
-## Settings
+Lines are colored from ANSI colors as typed. This can help unknown commands (typos) reveal themselves before they are even ran.
 
-| zstyle | |
-|---|---|
-| `':zing:<feature>' enabled no` | turn a feature off |
-| `':zing:theme' <slot> <colour>` | a colour, above |
-| `':zing:history' file <path>` | history file, else `$HISTFILE` if set, else `$XDG_DATA_HOME/zsh/history` |
-| `':zing:compinit' cache-dir <dir>` | where the completion dump goes, else `$XDG_CACHE_HOME/zsh` |
-| `':zing:ls-colors' file <path>` | a prebuilt `dircolors -b` to source |
-| `':zing:plugins' <plugin> <file>` | a plugin's entry file, e.g. `zsh-autosuggestions`; set by the module |
-| `':zing:nix-shells' shell <path>` | the shell nix drops into, else this one |
+### Prompt
 
-## Phases
+The prompt is always placed at the bottom row of the terminal. This means your focus can stay in one place, as opposed to tracking accross the screen as history grows. Of course, `clear` and `ctrl+L` are supported
 
-The module sources five phases from [`zsh/`](zsh), each at its place in
-`.zshrc`. `zing.zsh` sources all five in a row, for `nix run`:
+The prompt also only provides directory information for the *active* prompt, i.e., it shrinks in the style of other "transient" prompts.
 
-| Phase | |
-|---|---|
-| `env.zsh` | hides the cursor; can go in `.zshenv` |
-| `early.zsh` | `$LS_COLORS`, `compinit` |
-| `main.zsh` | options and widgets; before your own widgets, to override its bindings |
-| `late.zsh` | the plugins, after every widget |
-| `prompt.zsh` | the prompt, then moves it to the bottom row |
+### Vi mode
 
-## Compatibility
+As all text areas should, the prompt supports vimlike motions, including normal mode, which is indicated by the `»` flipping around to `«`.
 
-Tested on zsh 5.9, on Linux. The Darwin outputs evaluate but are untested.
+
+### Expansion
+
+Alias expand before execution, so you can see what actually ran and history can save the full command. In the style of [puffer fish](https://github.com/nickeb96/puffer-fish), typing `...` becomes `../..`.
+
+### Nix integration
+
+`nix develop`, `nix shell` and `nix-shell` drop you into zsh instead of bash.
+
+### Colors
+
+Zing uses your terminal's ANSI colours to match whatever theme your
+terminal is already using. [Stylix](https://github.com/nix-community/stylix) is a great option for theming.
