@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/screenshot.png" width="624" alt="A terminal running Zing: a shrunk prompt above echo 'Hello, world!' and its output, and the live prompt below">
+</p>
+
 # Zing
 *is a performant, opinionated zsh configuration for Nix.*
 
