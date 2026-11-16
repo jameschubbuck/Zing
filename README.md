@@ -139,10 +139,6 @@ The module sources five phases from [`zsh/`](zsh), each at its place in
 | `late.zsh` | the plugins, after every widget |
 | `prompt.zsh` | the prompt, then moves it to the bottom row |
 
-## Development
-
-```sh
-nix flake check     # drives a real zsh through a pty
-```
+## Compatibility
 
 Tested on zsh 5.9, on Linux. The Darwin outputs evaluate but are untested.

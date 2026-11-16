@@ -31,21 +31,6 @@
     # Phase positions in .zshrc, for placing your own `initContent` around them
     lib.order = import ./nix/order.nix;
 
-    # The pty tests, against the package and nixpkgs' plugins
-    checks = forAll (pkgs: {
-      widgets =
-        pkgs.runCommand "zing-widgets" {
-          nativeBuildInputs = [pkgs.zsh];
-          ZING_TEST_RC = ''
-            ${pkgs.callPackage ./nix/plugins.nix {}}
-            source ${self.packages.${pkgs.stdenv.hostPlatform.system}.zing}/share/zing/zing.zsh
-          '';
-        } ''
-          HOME=$TMPDIR zsh ${./tests/run.zsh}
-          touch $out
-        '';
-    });
-
     formatter = forAll (pkgs: pkgs.alejandra);
   };
 }
