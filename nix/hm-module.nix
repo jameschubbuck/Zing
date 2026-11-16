@@ -12,7 +12,7 @@
   share = "${cfg.package}/share/zing";
 
   # Each file in features/, but suggest-refetch, a part of autosuggestions
-  features = lib.pipe (builtins.readDir ../features) [
+  features = lib.pipe (builtins.readDir ../zsh/features) [
     builtins.attrNames
     (map (lib.removeSuffix ".zsh"))
     (lib.remove "suggest-refetch")
@@ -21,7 +21,7 @@
 
   # Bake at build time instead of running dircolors every shell. Directories
   # others can write, or sticky ones, as any other directory, as
-  # features/ls-colors.zsh has them
+  # zsh/features/ls-colors.zsh has them
   lsColors = pkgs.runCommandLocal "ls-colors.zsh" {} ''
     ${pkgs.coreutils}/bin/dircolors -p \
       | sed -E 's/^(STICKY_OTHER_WRITABLE|OTHER_WRITABLE|STICKY) .*/\1 01;34/' \
@@ -77,7 +77,7 @@ in {
       type = lib.types.listOf (lib.types.enum features);
       default = [];
       example = ["bottom-prompt" "nix-shells"];
-      description = "Features to leave out, by the names of the files in `features/`.";
+      description = "Features to leave out, by the names of the files in `zsh/features/`.";
     };
 
     compileZshrc = lib.mkOption {
@@ -99,7 +99,7 @@ in {
     programs.zsh = {
       enable = true;
 
-      # `../features/history.zsh`, as defaults of home-manager's own options,
+      # `../zsh/features/history.zsh`, as defaults of home-manager's own options,
       # so that setting those still works
       history = lib.mkIf (enabled "history") (lib.mapAttrs (_: lib.mkDefault) {
         path = "${config.xdg.dataHome}/zsh/history";
@@ -120,7 +120,7 @@ in {
         "HIST_FCNTL_LOCK"
       ];
 
-      # `../features/compinit.zsh` instead
+      # `../zsh/features/compinit.zsh` instead
       completionInit = lib.mkIf (enabled "compinit") (lib.mkDefault "");
 
       envExtra = lib.mkIf (enabled "cursor") ''
