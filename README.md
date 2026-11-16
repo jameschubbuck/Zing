@@ -2,7 +2,7 @@
 
 A zsh configuration: suggestions from paths and history, a prompt that starts
 on the bottom row and shrinks once submitted, vi mode, and fast startup. For
-Nix: a home-manager module that takes its colours from stylix.
+Nix: a home-manager module.
 
 ## Try it
 
@@ -36,11 +36,10 @@ The module:
 - Byte-compiles everything at build time.
 - Bakes `$LS_COLORS` in.
 - Uses `programs.zsh.history` for history, with Zing's settings as defaults.
-- Takes `stylix`'s palette when stylix is enabled.
 
 | Option | |
 |---|---|
-| `programs.zing.colors` | base16 colours, e.g. `{base0D = "89b4fa";}`, stylix's by default |
+| `programs.zing.colors` | base16 colours over the terminal's, e.g. `{base0D = "89b4fa";}` |
 | `programs.zing.disable` | features to leave out, e.g. `["bottom-prompt"]` |
 | `programs.zing.compileZshrc` | byte-compile `.zshrc` on activation, default on |
 
@@ -62,7 +61,7 @@ programs.zsh.initContent = lib.mkOrder (inputs.zing.lib.order.late - 1) ''
 
 ## Features
 
-Each is a file in [`features/`](features), and each can be turned off:
+Each is a file in [`zsh/features/`](zsh/features), and each can be turned off:
 
 ```zsh
 zstyle ':zing:bottom-prompt' enabled no
@@ -129,8 +128,8 @@ zstyle ':zing:theme' base0D '#89b4fa'
 
 ## Phases
 
-The module sources five phases, each at its place in `.zshrc`. `zing.zsh`
-sources all five in a row, for `nix run`:
+The module sources five phases from [`zsh/`](zsh), each at its place in
+`.zshrc`. `zing.zsh` sources all five in a row, for `nix run`:
 
 | Phase | |
 |---|---|
