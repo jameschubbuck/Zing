@@ -1,5 +1,5 @@
-# Zing for home-manager: each phase sourced at its place in .zshrc, the
-# plugins from nixpkgs, and colours from stylix when it is there
+# Zing for home-manager: each phase sourced at its place in .zshrc, and the
+# plugins from nixpkgs
 {
   config,
   lib,
@@ -18,13 +18,6 @@
     (lib.remove "suggest-refetch")
   ];
   enabled = feature: !(lib.elem feature cfg.disable);
-
-  # base00 to base0F, as stylix's palette has among much else
-  isSlot = name: builtins.match "base0[0-9A-F]" name != null;
-  stylixColors =
-    if (config.stylix.enable or false) && config.lib ? stylix
-    then lib.filterAttrs (name: _: isSlot name) config.lib.stylix.colors
-    else {};
 
   # Bake at build time instead of running dircolors every shell. Directories
   # others can write, or sticky ones, as any other directory, as
@@ -69,8 +62,7 @@ in {
 
     colors = lib.mkOption {
       type = lib.types.attrsOf lib.types.str;
-      default = stylixColors;
-      defaultText = lib.literalMD "the stylix palette, if stylix is enabled, else none";
+      default = {};
       example = {
         base0D = "89b4fa";
         base0E = "cba6f7";
