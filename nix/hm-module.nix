@@ -11,28 +11,11 @@
   zcompile = pkgs.callPackage ./zcompile.nix {};
   share = "${cfg.package}/share/zing";
 
-  features = [
-    "accept-suggestion"
-    "alias-expand"
-    "auto-cd"
-    "autosuggestions"
-    "bottom-prompt"
-    "clear"
-    "compinit"
-    "completion"
-    "cursor"
-    "dot-expand"
-    "history"
-    "history-suggestions"
-    "keybinds"
-    "ls-colors"
-    "nix-shells"
-    "options"
-    "path-suggestions"
-    "prompt"
-    "syntax-highlighting"
-    "transient-prompt"
-    "vi-mode"
+  # Each file in features/, but suggest-refetch, a part of autosuggestions
+  features = lib.pipe (builtins.readDir ../features) [
+    builtins.attrNames
+    (map (lib.removeSuffix ".zsh"))
+    (lib.remove "suggest-refetch")
   ];
   enabled = feature: !(lib.elem feature cfg.disable);
 
