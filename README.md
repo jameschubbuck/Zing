@@ -6,10 +6,10 @@ Nix: a home-manager module.
 
 ## Try it
 
-With Nix, from a clone, without touching your own config or history:
+With Nix, without touching your own config or history:
 
 ```sh
-nix run .
+nix run github:jameschubbuck/Zing
 ```
 
 ## Install
