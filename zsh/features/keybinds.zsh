@@ -1,4 +1,4 @@
-# Stop words at path separators, for ^W and word motions
+# Stop words at path separators, for Ctrl+arrow word motions
 WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 
 # Free ^S and ^Q from pausing the terminal
@@ -18,12 +18,3 @@ bindkey -M viins '\e[5~' up-line-or-history
 bindkey -M viins '\e[6~' down-line-or-history
 bindkey -M viins '\e[1;5C' forward-word
 bindkey -M viins '\e[1;5D' backward-word
-
-# Emacs style line editing
-bindkey -M viins '^A' beginning-of-line
-bindkey -M viins '^E' end-of-line
-bindkey -M viins '^K' kill-line
-bindkey -M viins '^U' backward-kill-line
-bindkey -M viins '^W' backward-kill-word
-bindkey -M viins '^P' up-line-or-history
-bindkey -M viins '^N' down-line-or-history
