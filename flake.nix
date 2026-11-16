@@ -22,6 +22,7 @@
       default = {
         type = "app";
         program = nixpkgs.lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.demo;
+        meta.description = "A zsh with Zing, leaving your own config and history alone";
       };
     });
 
