@@ -142,6 +142,7 @@ in {
       setOptions = lib.mkIf (enabled "history") [
         "INC_APPEND_HISTORY_TIME"
         "HIST_REDUCE_BLANKS"
+        "HIST_FCNTL_LOCK"
       ];
 
       # `../features/compinit.zsh` instead
