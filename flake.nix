@@ -32,19 +32,13 @@
     lib.order = import ./nix/order.nix;
 
     # The pty tests, against the package and nixpkgs' plugins
-    checks = forAll (pkgs: let
-      inherit (pkgs.stdenv.hostPlatform) system;
-      zcompile = pkgs.callPackage ./nix/zcompile.nix {};
-      autosuggestions = zcompile pkgs.zsh-autosuggestions;
-      syntaxHighlighting = zcompile pkgs.zsh-syntax-highlighting;
-    in {
+    checks = forAll (pkgs: {
       widgets =
         pkgs.runCommand "zing-widgets" {
           nativeBuildInputs = [pkgs.zsh];
           ZING_TEST_RC = ''
-            zstyle ':zing:plugins' zsh-autosuggestions ${autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-            zstyle ':zing:plugins' zsh-syntax-highlighting ${syntaxHighlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-            source ${self.packages.${system}.zing}/share/zing/zing.zsh
+            ${pkgs.callPackage ./nix/plugins.nix {}}
+            source ${self.packages.${pkgs.stdenv.hostPlatform.system}.zing}/share/zing/zing.zsh
           '';
         } ''
           HOME=$TMPDIR zsh ${./tests/run.zsh}

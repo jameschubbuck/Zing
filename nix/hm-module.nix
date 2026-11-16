@@ -8,7 +8,6 @@
 }: let
   cfg = config.programs.zing;
   order = import ./order.nix;
-  zcompile = pkgs.callPackage ./zcompile.nix {};
   share = "${cfg.package}/share/zing";
 
   # Each file in features/, but suggest-refetch, a part of autosuggestions
@@ -36,19 +35,15 @@
     else "${config.home.homeDirectory}/${dotDir}/.zshrc";
 
   zstyle = context: style: value: "zstyle ${lib.escapeShellArgs [":zing${context}" style value]}";
-  zstyles = lib.concatLines (
-    [
-      (zstyle ":plugins" "zsh-autosuggestions"
-        "${zcompile pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh")
-      (zstyle ":plugins" "zsh-syntax-highlighting"
-        "${zcompile pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh")
-      (zstyle ":ls-colors" "file" "${lsColors}")
-    ]
-    ++ lib.mapAttrsToList (zstyle ":theme") cfg.colors
-    ++ map (feature: zstyle ":${feature}" "enabled" "no") cfg.disable
-    # Set through home-manager's options instead, below
-    ++ [(zstyle ":history" "enabled" "no")]
-  );
+  zstyles =
+    pkgs.callPackage ./plugins.nix {}
+    + lib.concatLines (
+      [(zstyle ":ls-colors" "file" "${lsColors}")]
+      ++ lib.mapAttrsToList (zstyle ":theme") cfg.colors
+      ++ map (feature: zstyle ":${feature}" "enabled" "no") cfg.disable
+      # Set through home-manager's options instead, below
+      ++ [(zstyle ":history" "enabled" "no")]
+    );
 in {
   options.programs.zing = {
     enable = lib.mkEnableOption "Zing, a zsh configuration";
