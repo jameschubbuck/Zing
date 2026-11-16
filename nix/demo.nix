@@ -12,14 +12,8 @@ writeShellApplication {
   name = "zing";
   runtimeInputs = [zsh coreutils];
   text = ''
-    # $ZING_DEMO_DIR to keep the history and caches between runs
-    if [[ -n ''${ZING_DEMO_DIR:-} ]]; then
-      dir=$ZING_DEMO_DIR
-      mkdir -p "$dir"
-    else
-      dir=$(mktemp -d)
-      trap 'rm -rf "$dir"' EXIT
-    fi
+    dir=$(mktemp -d)
+    trap 'rm -rf "$dir"' EXIT
     cat > "$dir/.zshrc" <<RC
     ${lib.concatLines [
       "zstyle ':zing:plugins' zsh-autosuggestions ${zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
@@ -27,7 +21,6 @@ writeShellApplication {
       "zstyle ':zing:history' file $dir/history"
       "zstyle ':zing:compinit' cache-dir $dir/cache"
     ]}
-    [[ -r $dir/zshrc.local ]] && source $dir/zshrc.local
     source ${zing}/share/zing/zing.zsh
     RC
     # NixOS's /etc/zshrc would set a prompt and run compinit of its own
