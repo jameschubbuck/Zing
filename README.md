@@ -17,7 +17,7 @@ nix run .
 ```nix
 # flake.nix
 inputs.zing = {
-  url = "git+file:///path/to/zing"; # or its git URL
+  url = "github:jameschubbuck/Zing"; # or git+https://codeberg.org/chubbuck/Zing
   inputs.nixpkgs.follows = "nixpkgs";
 };
 
