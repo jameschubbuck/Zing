@@ -4,7 +4,7 @@ source ${${(%):-%x}:A:h}/lib.zsh
 
 # suggest-refetch binds every printable key, so goes before the per-key
 # bindings, which override part of its range
-for _zing_feature in options vi-mode history auto-cd suggest-refetch keybinds \
+for _zing_feature in options vi-mode history suggest-refetch keybinds \
   completion accept-suggestion alias-expand clear cursor dot-expand \
   history-suggestions path-suggestions transient-prompt nix-shells; do
   zing-enabled $_zing_feature && source $ZING_ROOT/features/$_zing_feature.zsh
