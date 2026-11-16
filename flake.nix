@@ -26,7 +26,7 @@
       };
     });
 
-    homeManagerModules.default = ./nix/hm-module.nix;
+    homeModules.default = ./nix/hm-module.nix;
 
     # Phase positions in .zshrc, for placing your own `initContent` around them
     lib.order = import ./nix/order.nix;

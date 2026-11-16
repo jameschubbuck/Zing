@@ -23,7 +23,7 @@ inputs.zing = {
 
 # a home-manager module
 {inputs, ...}: {
-  imports = [inputs.zing.homeManagerModules.default];
+  imports = [inputs.zing.homeModules.default];
   programs.zing.enable = true;
 }
 ```
