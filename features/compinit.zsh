@@ -7,8 +7,8 @@ zmodload -F zsh/stat b:zstat
 autoload -Uz compinit
 
 () {
-  local cache
-  zstyle -s ':zing:compinit' cache-dir cache || cache=${XDG_CACHE_HOME:-$HOME/.cache}/zsh
+  _zing_completion_cache
+  local cache=$REPLY
   [[ -d $cache ]] || zf_mkdir -p $cache
   local dump=$cache/zcompdump
 

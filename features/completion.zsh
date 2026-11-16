@@ -1,8 +1,8 @@
 zing-enabled completion || return
 
 () {
-  local cache
-  zstyle -s ':zing:compinit' cache-dir cache || cache=${XDG_CACHE_HOME:-$HOME/.cache}/zsh
+  _zing_completion_cache
+  local cache=$REPLY
 
   # Menu with case-insensitive, substring matching
   zstyle ':completion:*' menu select

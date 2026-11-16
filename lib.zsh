@@ -47,3 +47,9 @@ _zing_plugin() {
   print -u2 "zing: no \`zstyle ':zing:plugins' $1\`"
   return 1
 }
+
+# Completion cache directory, in $REPLY
+# `zstyle ':zing:compinit' cache-dir <dir>`, else under $XDG_CACHE_HOME
+_zing_completion_cache() {
+  zstyle -s ':zing:compinit' cache-dir REPLY || REPLY=${XDG_CACHE_HOME:-$HOME/.cache}/zsh
+}
